@@ -1,0 +1,21 @@
+version: "3"
+networks:
+  dev:
+services:
+  andrew_server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: "always"
+    networks:
+      - dev
+    # if port 2222 in used, you need change ssh port to diff port (Ex: 2223, 2224, ....)
+    # and allow export port from firewall.
+    ports:
+      - "2222:22"
+    environment:
+      - DOCKER_HOST="tcp://172.17.0.1:2375"
+    volumes:
+      - ~/son:/home/ubuntu/code:cached
+      - ./aptos-config:/aptos-config:ro
+      - son:/home/ubuntu/.ssh
